@@ -5,6 +5,31 @@
 }
 
 
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+body.shake {
+  animation: shake 0.4s ease;
+}
+
+
+
 :root {
   --accent: #e07a5f;
   --background: #fff5f1;
@@ -36,6 +61,7 @@ header {
   padding: 40px 20px;
   text-align: center;
   box-shadow: 0 3px 10px var(--shadow);
+  position: relative;
 }
 
 header h1 {
@@ -289,7 +315,6 @@ footer {
 }
 
 
-
 #comments-list li {
   background-color: var(--card-bg);
   padding: 15px 20px;
@@ -380,21 +405,21 @@ body.dark th {
 }
 
 #theme-switch {
-  position: fixed;
+  position: absolute; 
   top: 20px;
   right: 20px;
   padding: 10px 18px;
   background-color: #2d89ef;
   color: white;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  z-index: 999;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 10;
+  transition: top 0.4s ease, left 0.4s ease, transform 0.2s ease;
 }
+
 
 #theme-switch:hover {
   background-color: #1769c0;

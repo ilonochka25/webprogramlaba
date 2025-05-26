@@ -1,4 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  const noSound = document.getElementById("no-sound");
+  const themeButton = document.getElementById("theme-switch");
+  const header = document.querySelector("header");
+  let themeClickCount = 0;
+
+  themeButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (themeClickCount < 2) {
+      const btnWidth = themeButton.offsetWidth;
+      const btnHeight = themeButton.offsetHeight;
+
+      const headerRect = header.getBoundingClientRect();
+      noSound.currentTime = 0; // щоб грало з початку
+      noSound.play();
+
+      // Обмежуємо рух в межах хедера
+      const maxX = headerRect.width - btnWidth - 20;
+      const maxY = headerRect.height - btnHeight - 20;
+
+      const newX = Math.floor(Math.random() * maxX);
+      const newY = Math.floor(Math.random() * maxY);
+
+      // Прив'язуємо до header
+      themeButton.style.position = "absolute";
+      themeButton.style.top = `${newY}px`;
+      themeButton.style.left = `${newX}px`;
+
+      themeClickCount++;
+    } else {
+      // Перемикаємо тему
+      document.body.classList.toggle("dark");
+
+      themeButton.textContent = document.body.classList.contains("dark")
+        ? "☀️ Світла тема"
+        : "🌙 Темна тема";
+
+      document.body.classList.add("shake");
+      setTimeout(() => {
+        document.body.classList.remove("shake");
+      }, 400);
+
+      // Повертаємо кнопку в правий верхній кут header
+      themeButton.style.position = "absolute";
+      themeButton.style.top = "20px";
+      themeButton.style.right = "20px";
+      themeButton.style.left = "auto";
+    }
+  });
+
+
+
+
+
   const systemInfo = {
     platform: navigator.platform,
     browser: navigator.userAgent,
@@ -87,14 +142,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const autoTheme = new Date().getHours() >= 7 && new Date().getHours() < 21 ? 'light' : 'dark';
   applyTheme(saved || autoTheme);
 
-  if (themeBtn) {
-    themeBtn.addEventListener("click", () => {
-      const newTheme = document.body.classList.contains("dark") ? "light" : "dark";
-      applyTheme(newTheme);
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    /*const newTheme = document.body.classList.contains("dark") ? "light" : "dark";
+    applyTheme(newTheme);*/
 
-      // тряска
-      document.body.classList.add("shake");
-      setTimeout(() => document.body.classList.remove("shake"), 400);
-    });
-  }
+    // тряска
+    document.body.classList.add("shake");
+    setTimeout(() => document.body.classList.remove("shake"), 400);
+  });
+}
+
+
+  const reveals = document.querySelectorAll('.reveal');
+    window.addEventListener('scroll', () => {
+      for (let el of reveals) {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+          el.classList.add('visible');
+        }
+      }
+  });
 });
